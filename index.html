@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Profesional - Rendy</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+body { background-color: #2b2d31; color: #ffffff; font-family: 'Inter', sans-serif; }
+.navbar-custom { background: rgba(43, 45, 49, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid #454950; }
+.nav-link { color: #ffffff !important; opacity: 0.8; transition: 0.3s; cursor: pointer; }
+.nav-link:hover, .nav-link.active { color: #58a6ff !important; opacity: 1; }
+.nav-link.active { border-bottom: 2px solid #58a6ff; }
+.card { background: #313338; border: 1px solid #454950; border-radius: 18px; color: #ffffff; transition: 0.3s; }
+.card:hover { transform: translateY(-5px); border-color: #58a6ff; }
+.profile { width:160px; height:160px; border-radius: 50%; border: 4px solid #58a6ff; object-fit: cover; margin-bottom: 2rem; }
+.btn-primary { background: linear-gradient(45deg,#238636,#2ea043); border: none; padding: 10px 25px; }
+.hero-wrapper { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 72px); text-align: center; }
+
+/* SKILL BAR */
+.skill-bar { height: 8px; background: #1e1f22; border-radius: 10px; overflow: hidden; }
+.skill-fill { height: 100%; width: 0; background: linear-gradient(90deg,#58a6ff,#1f6feb); border-radius: 10px; }
+
+/* GITHUB SECTION STYLES */
+.gh-avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #58a6ff; padding: 3px; }
+.repo-card { background: #1e1f22; border: 1px solid #454950; border-radius: 12px; transition: 0.3s; height: 100%; padding: 15px; }
+.repo-card:hover { border-color: #58a6ff; transform: scale(1.02); }
+.loader { border: 4px solid #454950; border-top: 4px solid #58a6ff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; display: inline-block; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* CERT IMAGE */
+.img-cert { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; border: 1px solid #454950; }
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+<div class="container">
+<a class="navbar-brand fw-bold" href="#" id="brandBtn">⚡ My CV</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+  <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav flex-wrap mx-auto">
+  <li class="nav-item"><a class="nav-link active" id="homeBtn">Home</a></li>
+  <li class="nav-item"><a class="nav-link" id="aboutBtn">About</a></li>
+  <li class="nav-item"><a class="nav-link" id="skillsBtn">Skills</a></li>
+  <li class="nav-item"><a class="nav-link" id="eduBtn">Education</a></li>
+  <li class="nav-item"><a class="nav-link" id="smartCampusBtn">Smart Campus</a></li>
+  <li class="nav-item"><a class="nav-link" id="portBtn">Portfolio</a></li>
+  <li class="nav-item"><a class="nav-link" id="githubBtn">GitHub Info</a></li>
+  <li class="nav-item"><a class="nav-link" id="certBtn">Certificates</a></li>
+  <li class="nav-item"><a class="nav-link" id="contactBtn">Contact</a></li>
+</ul>
+</div>
+</div>
+</nav>
+
+<div id="home-content"></div>
+<div class="container py-5" id="main-content" style="display: none;">
+  <div id="page-container"></div>
+</div>
+
+<script>
+const GITHUB_USERNAME = "RendyMaulanaakhbar";
+
+function setActive(el){
+  $('.nav-link').removeClass('active');
+  $(el).addClass('active');
+  $('.navbar-collapse').collapse('hide');
+}
+
+function loadCardContent(html){
+  $('#home-content').hide();
+  $('#main-content').show();
+  $('#page-container').hide().html(html).fadeIn(300);
+  
+  $('.skill-fill').each(function(){
+    $(this).animate({width: $(this).data('width')}, 1000);
+  });
+}
+
+function loadHome(){
+  $('#main-content').hide();
+  $('#home-content').html(`
+    <div class="hero-wrapper">
+      <div class="hero">
+        <img src="rendy.jpeg" class="profile" alt="Profil" onerror="this.src='https://via.placeholder.com/160/58a6ff/ffffff?text=Rendy'">
+        <h2>Rendy Maulana Akhbar</h2>
+        <p class="subtitle">Mahasiswa • Web Developer</p>
+        <div class="mt-4">
+          <button class="btn btn-primary me-2" onclick="$('#portBtn').click()">Lihat Portfolio</button>
+          <button class="btn btn-outline-light" onclick="alert('CV sedang disiapkan!')">Download CV</button>
+        </div>
+      </div>
+    </div>
+  `).hide().fadeIn(300);
+}
+
+/* --- MENU GITHUB INFO --- */
+function loadGithubInfo() {
+  loadCardContent(`<div class="card p-5 text-center"><div class="loader mb-3"></div><p>Menghubungkan ke GitHub API...</p></div>`);
+  $.ajax({
+    url: `https://api.github.com/users/${GITHUB_USERNAME}`,
+    method: 'GET',
+    success: function(user) {
+      $.ajax({
+        url: `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`,
+        method: 'GET',
+        success: function(repos) {
+          let repoList = '';
+          repos.forEach(repo => {
+            repoList += `
+              <div class="col-md-4 mb-3">
+                <div class="repo-card">
+                  <h6 class="text-primary mb-1 text-truncate">${repo.name}</h6>
+                  <p class="small text-white-50" style="height: 40px; overflow: hidden;">${repo.description || 'No description available.'}</p>
+                  <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="small"><i class="bi bi-code-slash text-info"></i> ${repo.language || 'Code'}</span>
+                    <a href="${repo.html_url}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="bi bi-github"></i> View</a>
+                  </div>
+                </div>
+              </div>`;
+          });
+
+          loadCardContent(`
+            <div class="card p-4">
+              <div class="row align-items-center mb-4 text-center text-md-start">
+                <div class="col-md-3"><img src="${user.avatar_url}" class="gh-avatar mb-3 mb-md-0"></div>
+                <div class="col-md-9">
+                  <h3 class="mb-1">${user.name || user.login}</h3>
+                  <p class="text-white-50 mb-3">${user.bio || 'Aspiring Web Developer'}</p>
+                  <div class="d-flex gap-4 justify-content-center justify-content-md-start">
+                    <span><strong>${user.public_repos}</strong> <small class="text-white-50">Repos</small></span>
+                    <span><strong>${user.followers}</strong> <small class="text-white-50">Followers</small></span>
+                    <span><strong>${user.following}</strong> <small class="text-white-50">Following</small></span>
+                  </div>
+                </div>
+              </div>
+              <hr class="border-secondary">
+              <h5 class="mb-4">Daftar Repositori Terbaru</h5>
+              <div class="row">${repoList}</div>
+            </div>
+          `);
+        }
+      });
+    },
+    error: function() {
+      loadCardContent(`<div class="card p-5 text-center text-danger"><h5>Gagal Memuat Data</h5><button class="btn btn-primary btn-sm mt-3" onclick="loadGithubInfo()">Coba Lagi</button></div>`);
+    }
+  });
+}
+
+/* --- MENU ABOUT --- */
+function loadAbout() {
+  loadCardContent(`
+    <div class="card p-4">
+      <div class="text-center py-4 rounded mb-4" style="background: #1c54a2;">
+        <img src="rendy.jpeg" class="rounded-circle mb-3 border border-3 border-light shadow" style="width:100px; height:100px; object-fit:cover;" onerror="this.src='https://via.placeholder.com/100/ffffff/1c54a2?text=Rendy'">
+        <h3 class="fw-bold mb-1">Rendy Maulana Akhbar</h3>
+        <p class="mb-0 text-white-50">Mahasiswa Komputerisasi Akuntansi</p>
+      </div>
+      <div>
+        <h5 class="fw-semibold mb-2" style="color: #58a6ff;"><i class="bi bi-person-workspace"></i> Tentang Saya</h5>
+        <p style="color: #c9d1d9; line-height: 1.8;">
+          Saya adalah mahasiswa yang fokus mendalami pengembangan web modern serta perancangan antarmuka sistem digital yang intuitif dan responsif.
+        </p>
+      </div>
+    </div>
+  `);
+}
+
+/* --- MENU SKILLS --- */
+function loadSkills() {
+  loadCardContent(`
+    <div class="card p-4">
+      <h5>🚀 Skills & Technologies</h5>
+      <div class="mb-3">
+        <div class="d-flex justify-content-between mb-1"><span>HTML/CSS</span><span>90%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-width="90%"></div></div>
+      </div>
+      <div class="mb-3">
+        <div class="d-flex justify-content-between mb-1"><span>JavaScript/jQuery</span><span>80%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-width="80%"></div></div>
+      </div>
+      <div class="mb-3">
+        <div class="d-flex justify-content-between mb-1"><span>PHP (Back-end)</span><span>75%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-width="75%"></div></div>
+      </div>
+    </div>
+  `);
+}
+
+/* --- MENU EDUCATION --- */
+function loadEducation() {
+  loadCardContent(`
+    <div class="card p-4">
+      <h5>🎓 Pendidikan</h5>
+      <div class="mb-2"><h6>D3 Komputerisasi Akuntansi</h6><p class="small text-white-50">Universitas Ma'soem</p></div>
+      <hr class="border-secondary">
+      <div class="mb-2"><h6>SMAN 1 Jatinangor</h6><p class="small text-white-50">Lulusan Sekolah Menengah Atas</p></div>
+    </div>
+  `);
+}
+
+/* --- MENU SMART CAMPUS --- */
+function loadSmartCampus() {
+  loadCardContent(`
+    <div class="card p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0" style="color:#58a6ff;"><i class="bi bi-cpu"></i> Proyek Utama: My Smart Campus</h5>
+        <span class="badge bg-success">UAS Utama Project</span>
+      </div>
+      <div class="row">
+        <div class="col-md-5 text-center mb-3">
+          <img src="smart-campus.png" class="img-fluid rounded border border-secondary shadow mb-3" onerror="this.src='https://via.placeholder.com/600x400/2b2d31/ffffff?text=Smart+Campus';">
+          <div class="d-grid gap-2 d-flex justify-content-center">
+            <a href="../Smart Campus/index.html" target="_blank" class="btn btn-sm btn-primary"><i class="bi bi-box-arrow-up-right"></i> Live Demo</a>
+            <a href="https://mycampus-rendy.vercel.app/" target="_blank" class="btn btn-sm btn-outline-light"><i class="bi bi-github"></i> GitHub</a>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <span class="badge bg-info mb-2 text-dark">PWA & SPA Architecture</span>
+          <h3>Pusat Kendali Akademik Pintar</h3>
+          <p class="text-white-50 small" style="line-height: 1.7;">
+            Aplikasi web mobile (PWA) yang dirancang menggunakan arsitektur Single Page Application (SPA).
+          </p>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+/* --- MENU PORTFOLIO: SERTIFIKAT WEB AKUNTANSI --- */
+function loadPortfolio() {
+  loadCardContent(`
+    <div class="card p-4">
+      <h5 class="mb-4">🖼️ Portfolio: Sertifikasi Web & Akuntansi</h5>
+      <p class="small text-white-50 mb-4">Koleksi sertifikasi keahlian profesional di bidang pemrograman web, teknologi awan, dan implementasi sistem akuntansi digital:</p>
+      
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="card p-3 h-100" style="background:#1e1f22; border:1px solid #454950;">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 style="color:#58a6ff;" class="mb-0"><i class="bi bi-journal-check"></i> Implementasi SIA Digital</h5>
+              <span class="badge bg-primary">Akuntansi</span>
+            </div>
+            <p class="small text-white-50">
+              Sertifikasi kompetensi dalam merancang dan mengintegrasikan siklus akuntansi berbasis web, manajemen invoice, pelacakan kas, serta pemodelan REA/ER diagram untuk kebutuhan korporasi.
+            </p>
+            <div class="mt-auto pt-2">
+              <span class="badge bg-dark border border-secondary text-info">SIA</span>
+              <span class="badge bg-dark border border-secondary text-info">Database Relasional</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <div class="card p-3 h-100" style="background:#1e1f22; border:1px solid #454950;">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 style="color:#2ea043;" class="mb-0"><i class="bi bi-code-square"></i> Web Developer Professional</h5>
+              <span class="badge bg-success">Pemrograman</span>
+            </div>
+            <p class="small text-white-50">
+              Sertifikat validasi keahlian pemrograman aplikasi web modern menggunakan integrasi PHP logika murni, manipulasi basis data MySQL, manajemen responsive grid UI Bootstrap, serta operasi AJAX jQuery.
+            </p>
+            <div class="mt-auto pt-2">
+              <span class="badge bg-dark border border-secondary text-success">PHP Fullstack</span>
+              <span class="badge bg-dark border border-secondary text-success">Front-end Engine</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+/* --- MENU CERTIFICATES --- */
+function loadCertificates() {
+  let certHtml = '<div class="row">';
+  for(let i=1; i<=12; i++) {
+    certHtml += `
+      <div class="col-md-4 col-6 mb-4 text-center">
+        <img src="rendy${i}.jpeg" class="img-cert mb-2" onerror="this.src='https://via.placeholder.com/300x200/1e1f22/ffffff?text=Cert+${i}'">
+        <small class="d-block fw-bold">Sertifikat ${i}</small>
+      </div>`;
+  }
+  certHtml += '</div>';
+  loadCardContent(`<div class="card p-4"><h5>📜 Certificates & Awards</h5>${certHtml}</div>`);
+}
+
+/* --- MENU CONTACT --- */
+function loadContact() {
+  const savedData = JSON.parse(localStorage.getItem('contactDraft')) || { nama: '', email: '', pesan: '' };
+  loadCardContent(`
+    <div class="card p-4">
+      <h5>📬 Hubungi Saya</h5>
+      <div class="mb-3"><label class="form-label small">Nama Lengkap</label><input id="inp_nama" class="form-control bg-dark border-secondary text-white" value="${savedData.nama}"></div>
+      <div class="mb-3"><label class="form-label small">Email</label><input id="inp_email" class="form-control bg-dark border-secondary text-white" value="${savedData.email}"></div>
+      <div class="mb-3"><label class="form-label small">Pesan</label><textarea id="inp_pesan" class="form-control bg-dark border-secondary text-white" rows="3">${savedData.pesan}</textarea></div>
+      <button class="btn btn-primary w-100" id="btnKirim">Kirim Pesan</button>
+    </div>
+  `);
+}
+
+/* --- ROUTING INITIALIZATION --- */
+$(document).ready(function(){
+  loadHome();
+  
+  $('#brandBtn, #homeBtn').click(function(e){ e.preventDefault(); setActive('#homeBtn'); loadHome(); });
+  $('#aboutBtn').click(function(){ setActive(this); loadAbout(); });
+  $('#skillsBtn').click(function(){ setActive(this); loadSkills(); });
+  $('#eduBtn').click(function(){ setActive(this); loadEducation(); });
+  $('#smartCampusBtn').click(function(){ setActive(this); loadSmartCampus(); });
+  $('#portBtn').click(function(){ setActive(this); loadPortfolio(); });
+  $('#githubBtn').click(function(){ setActive(this); loadGithubInfo(); });
+  $('#certBtn').click(function(){ setActive(this); loadCertificates(); });
+  $('#contactBtn').click(function(){ setActive(this); loadContact(); });
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

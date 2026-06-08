@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Rendy</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .card {
+      background: #161b22;
+      border-radius: 16px;
+      border: 1px solid #21262d;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #58a6ff;
+    }
+
+    .header {
+      background: #161b22;
+      border-bottom: 1px solid #21262d;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .profile-img {
+      border-radius: 50%;
+      border: 3px solid #30363d;
+      object-fit: cover;
+    }
+
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .list-group-item {
+      background: #0d1117;
+      border: 1px solid #21262d;
+      color: #e6edf3;
+    }
+
+    .list-group-item small {
+      color: #8b949e;
+    }
+
+    .btn-success {
+      background: #238636;
+      border: none;
+    }
+
+    .btn-success:hover {
+      background: #2ea043;
+    }
+
+    .text-muted {
+      color: #8b949e !important;
+    }
+
+    input, textarea {
+      background: #0d1117 !important;
+      border: 1px solid #30363d !important;
+      color: #e6edf3 !important;
+    }
+
+    small.error {
+      color: #f85149;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+
+      <div class="card shadow-lg">
+
+        <!-- HEADER -->
+        <div class="card-body text-center py-5 header">
+          <img src="https://via.placeholder.com/100"
+               class="profile-img mb-3"
+               width="100" height="100">
+
+          <h3 class="fw-bold mb-1">Rendy Maulana Akhbar</h3>
+          <p class="text-muted mb-0">Mahasiswa Komputerisasi Akuntansi</p>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="card-body p-5">
+
+          <!-- ABOUT -->
+          <div class="mb-5">
+            <h5 class="section-title" style="color:#58a6ff;">👨‍💻 Tentang Saya</h5>
+            <p style="line-height:1.8;">
+              Saya memiliki minat di bidang organisasi, kepemimpinan, dan teknologi.
+              Aktif dalam kegiatan kampus serta terus mengembangkan diri.
+            </p>
+          </div>
+
+          <!-- PENDIDIKAN -->
+          <div class="mb-5">
+            <h5 class="section-title" style="color:#2ea043;">🎓 Pendidikan</h5>
+
+            <div class="list-group">
+              <div class="list-group-item mb-2 rounded">
+                <strong>D3 - Komputerisasi Akuntansi</strong><br>
+                <small>Universitas Ma'soem</small>
+              </div>
+
+              <div class="list-group-item rounded">
+                <strong>SMA</strong><br>
+                <small>SMAN 1 Jatinangor</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTACT INFO -->
+          <div class="mb-5">
+            <h5 class="section-title" style="color:#f85149;">📬 Contact</h5>
+
+            <div class="list-group">
+              <div class="list-group-item mb-2 rounded">
+                <strong>Email</strong><br>
+                <small>rendymaulana957@gmail.com</small>
+              </div>
+
+              <div class="list-group-item rounded">
+                <strong>No HP</strong><br>
+                <small>0895344496952</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- HUBUNGI SAYA -->
+          <div>
+            <h5 class="section-title" style="color:#58a6ff;">💬 Hubungi Saya</h5>
+
+            <input id="nama" class="form-control mb-2" placeholder="Nama">
+            <small id="e1" class="error"></small>
+
+            <input id="email" class="form-control mb-2" placeholder="Email">
+            <small id="e2" class="error"></small>
+
+            <textarea id="pesan" class="form-control mb-2" placeholder="Pesan"></textarea>
+            <small id="e3" class="error"></small>
+
+            <button class="btn btn-success w-100 mt-3" onclick="kirimPesan()">Kirim Pesan</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function kirimPesan(){
+  let n = document.getElementById("nama").value;
+  let e = document.getElementById("email").value;
+  let p = document.getElementById("pesan").value;
+
+  document.getElementById("e1").innerText="";
+  document.getElementById("e2").innerText="";
+  document.getElementById("e3").innerText="";
+
+  let valid = true;
+
+  if(n===""){
+    document.getElementById("e1").innerText="Nama wajib diisi";
+    valid=false;
+  }
+
+  if(!e.includes("@")){
+    document.getElementById("e2").innerText="Email tidak valid";
+    valid=false;
+  }
+
+  if(p.length<5){
+    document.getElementById("e3").innerText="Pesan minimal 5 karakter";
+    valid=false;
+  }
+
+  if(valid){
+    alert("Pesan berhasil dikirim 🚀");
+  }
+}
+</script>
+
+</body>
+</html>
