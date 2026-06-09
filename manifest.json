@@ -1,22 +1,20 @@
 {
-    "name": "CV Profesional Rendy Maulana Akhbar",
-    "short_name": "CV Rendy",
-    "description": "Aplikasi PWA CV Profesional Rendy Maulana Akhbar",
-    "start_url": "./index.html",
-    "display": "standalone",
-    "background_color": "#2b2d31",
-    "theme_color": "#1c54a2",
-    "orientation": "portrait-primary",
-    "icons": [
-      {
-        "src": "https://via.placeholder.com/192/58a6ff/ffffff?text=Rendy",
-        "sizes": "192x192",
-        "type": "maaulana/jpeg"
-      },
-      {
-        "src": "https://via.placeholder.com/512/58a6ff/ffffff?text=Rendy",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  }
+  "name": "CV Online rendy",
+  "short_name": "CV rendy",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d6efd",
+  "icons": [
+    {
+      "src": "unj-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "unj-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
