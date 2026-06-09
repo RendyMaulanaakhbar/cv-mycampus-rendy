@@ -1,19 +1,20 @@
 {
-    "name": "CV Dimas Luqmanul Hakim",
-    "short_name": "CV Dimas",
-    "description": "Portfolio & Resume Dimas Luqmanul Hakim - Kompterisasi Akuntansi",
-    "start_url": "/",
+    "name": "CV Profesional Rendy Maulana Akhbar",
+    "short_name": "CV Rendy",
+    "description": "Aplikasi PWA CV Profesional Rendy Maulana Akhbar",
+    "start_url": "./index.html",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#2c3e50",
+    "background_color": "#2b2d31",
+    "theme_color": "#1c54a2",
+    "orientation": "portrait-primary",
     "icons": [
       {
-        "src": "apk.jpeg",
+        "src": "https://via.placeholder.com/192/58a6ff/ffffff?text=Rendy",
         "sizes": "192x192",
-        "type": "image/png"
+        "type": "maaulana/jpeg"
       },
       {
-        "src": "icon-512.png",
+        "src": "https://via.placeholder.com/512/58a6ff/ffffff?text=Rendy",
         "sizes": "512x512",
         "type": "image/png"
       }
